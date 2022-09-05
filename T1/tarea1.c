@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tarea1.h"
+
+
+#define PI 3.14159265 //se utiliza pi en el cálculo del volumen
+
 // Coloque aca la implementacion de las funciones definidas en tarea1.h
 
 // Implementación funcion1: numeros pares de 1 a 50   (ok)
@@ -26,6 +30,7 @@ void funcion2(){
 	}
 	printf("\n");
 }
+
 // Implementación funcion3: factorial   (ok)
 void funcion3(){
 	int n; //número a ingrsar
@@ -55,8 +60,8 @@ void funcion4(){
 	float v = 0;
 	printf("Ingresar valor del radio: ");
 	scanf("%float", &r);
-	v = 4*r*r*r/3; //cálculo del volumen
-	printf("El volumen de una esfera de radio %f es %f\n", r, v);
+	v = 4*r*r*r*PI/3; //cálculo del volumen
+	printf("El volumen de una esfera de radio %f es %f\n [m]", r, v);
 }
 
 // Implementación funcion5: dado de 6 caras
