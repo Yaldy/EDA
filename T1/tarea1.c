@@ -7,7 +7,7 @@
 
 // Coloque aca la implementacion de las funciones definidas en tarea1.h
 
-// Implementación funcion1: numeros pares de 1 a 50   (ok)
+// Implementación funcion1: numeros pares de 1 a 50
 void funcion1(){
 	int i=0;
 	int par = 0;
@@ -19,7 +19,7 @@ void funcion1(){
 	printf("\n");
 }
 
-// Implementación funcion2: números impares de 1 a 50   (ok)
+// Implementación funcion2: números impares de 1 a 50
 void funcion2(){
 	int i=0; //contador
 	int impar = 0;
@@ -31,11 +31,11 @@ void funcion2(){
 	printf("\n");
 }
 
-// Implementación funcion3: factorial   (ok)
+// Implementación funcion3: factorial
 void funcion3(){
 	int n; //número a ingrsar
 	int i=1; //contador
-	int fact=1; //variable que guarda el cáulculo
+	int fact=1; //variable que guarda el cálculo
 	
 	printf("Calcular factorial de (ingresar numero): ");
 	scanf("%int",&n);
@@ -60,8 +60,12 @@ void funcion4(){
 	float v = 0;
 	printf("Ingresar valor del radio: ");
 	scanf("%float", &r);
+  if (r<0)
+    printf("Valor invalido\n");
+  else {
 	v = 4*r*r*r*PI/3; //cálculo del volumen
-	printf("El volumen de una esfera de radio %f es %f\n [m]", r, v);
+	printf("El volumen de una esfera de radio %f es %f\n [m]", r, v); //resultado con 6 decimales
+ }
 }
 
 // Implementación funcion5: dado de 6 caras

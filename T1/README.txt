@@ -5,7 +5,7 @@ Además, contiene la implementación de las 5 funciones que son llamadas en main
 	funcion1: entrega los números pares del 0 al 50.
 	funcion2: entrega los números impares del 0 al 50.
 	funcion3: calcula el factorial de un número ENTERO. Esta función solicita que el usuario ingrese un dato. Este DEBE ser un número entero.
-	funcion4: calcula el volumen de una esfera. El radio de esta es ingresado por el usuario, y las unidades de la salida deben ser interpretadas por este, según las unidades del dato que ingresó. La constante pi se aproxima como 3.14159265.
+	funcion4: calcula el volumen de una esfera. El radio de esta es ingresado por el usuario, y las unidades de la salida deben ser interpretadas por este, según las unidades del dato que ingresó. La constante pi se aproxima como 3.14159265. Resultado entrega hasta 6 decimales
 	funcion5: entrega un valor aleatorio de 1 a 6.
 estas funciones son llamasdas según el número que el usuario ingrese (de 1 a 5). En caso de que se ingrese un valor fuera de este rango, el programa calificará la entrada como no válida.
 	
