@@ -48,11 +48,11 @@ void funcion3(){
 	
 	
 	if(dec>0){ //decimal
-    printf("Valor invalido, debe ser un numero entero.\nQuizas quizo decir %d.\n",a);
-    for (i; i<=n; i++){
-  			fact*=i;
-    } 
-    printf("El fatorial de %d es %lu.\n", a, fact);
+		printf("Valor invalido, debe ser un numero entero.\nQuizas quizo decir %d.\n",a);
+		for (i; i<=n; i++){
+			fact*=i;
+		} 
+		printf("El fatorial de %d es %lu.\n", a, fact);
 	}
   
 	else if(n>20 || n<0){ //cálculo entrada correcta
@@ -63,7 +63,7 @@ void funcion3(){
     
 		for (i; i<=n; i++){
   			fact*=i;
-    } 
+		} 
 		printf("El fatorial de %d es %lu.\n", a, fact);
 	}
  
@@ -82,12 +82,13 @@ void funcion4(){
 	float v = 0;
 	printf("Ingresar valor del radio: ");
 	scanf("%float", &r);
-  if (r<0)
-    printf("Valor invalido\n");
-  else {
-	v = 4*r*r*r*PI/3; //cálculo del volumen
-	printf("El volumen de una esfera de radio %f es %f\n", r, v); //resultado con 6 decimales
- }
+	if (r<0){
+		printf("Valor invalido\n");
+	}
+	else {
+		v = 4*r*r*r*PI/3; //cálculo del volumen
+		printf("El volumen de una esfera de radio %f es %f\n", r, v); //resultado con 6 decimales
+	}
 }
 
 // Implementación funcion5: dado de 6 caras
@@ -100,9 +101,9 @@ void funcion5(){
 }
 
 //------------- Función principal --------------------
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv){
 	int opcion=0;
+	
 // Aca se desarrollara el resto del codigo
 
 	printf("\nIngrese la funcion que desea implementar:\n");

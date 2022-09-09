@@ -13,7 +13,7 @@ estas funciones son llamasdas según el número que el usuario ingrese (de 1 a 5
 	
 El archivo tarea.h contiene la definición de las 5 funciones mencionadas anteriormente. Este archivo está incluida como librería usuaria en el archivo tarea1.c.
 
-Para compilar este programa se debe teclear en la consola de linux el siguiente comando
+Para compilar este programa se debe teclear en la consola de aragorn el siguiente comando
 
 	gcc tarea1.c -o tarea1
 
