@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> 
 #include "tarea1.h"
 
 
@@ -31,28 +31,50 @@ void funcion2(){
 	printf("\n");
 }
 
+
 // Implementación funcion3: factorial
 void funcion3(){
-	int n; //número a ingrsar
+	float n; //número a ingrsar
 	int i=1; //contador
-	int fact=1; //variable que guarda el cálculo
-	
+	unsigned long fact=1; //variable que guarda el cálculo (guarda 8bytes, hasta 2^32)
+  
+	// ingreso de valor
 	printf("Calcular factorial de (ingresar numero): ");
-	scanf("%int",&n);
+	scanf("%float",&n);
+	
+	//para verificar si el numero ingrsado es entero
+	int a = n; // pasar n a entero
+	float dec = n-a; //separa aprte entera de parte decimal
 	
 	
-	if(n!=0){
-		// loop para multiplicar los numeros de 1 a n
+	if(dec>0){ //decimal
+    printf("Valor invalido, debe ser un numero entero.\nQuizas quizo decir %d.\n",a);
+    for (i; i<=n; i++){
+  			fact*=i;
+    } 
+    printf("El fatorial de %d es %lu.\n", a, fact);
+	}
+  
+	else if(n>20 || n<0){ //cálculo entrada correcta
+		printf("Numero ingresado debe estar entre 0 y 20.\n");
+	}
+  
+	else if((0<n) && (n<=20)){ //solo alcanza a calcular hasta 20!
+    
 		for (i; i<=n; i++){
-			fact*=i;
-		}
+  			fact*=i;
+    } 
+		printf("El fatorial de %d es %lu.\n", a, fact);
 	}
-	else{
+ 
+	else if (n==0){ //factorial de 0
 		fact = 1;
+		printf("El fatorial de %d es %lu.\n", a, fact);
 	}
 	
-	printf("El fatorial de %d es %d\n", n, fact);
+	
 }
+
 
 // Implementación funcion4: volumen de la esfera
 void funcion4(){
@@ -64,7 +86,7 @@ void funcion4(){
     printf("Valor invalido\n");
   else {
 	v = 4*r*r*r*PI/3; //cálculo del volumen
-	printf("El volumen de una esfera de radio %f es %f\n [m]", r, v); //resultado con 6 decimales
+	printf("El volumen de una esfera de radio %f es %f\n", r, v); //resultado con 6 decimales
  }
 }
 
