@@ -48,11 +48,7 @@ void funcion3(){
 	
 	
 	if(dec>0){ //decimal
-		printf("Valor invalido, debe ser un numero entero.\nQuizas quizo decir %d.\n",a);
-		for (i; i<=n; i++){
-			fact*=i;
-		} 
-		printf("El fatorial de %d es %lu.\n", a, fact);
+		printf("Valor invalido, debe ser un numero entero.\n");
 	}
   
 	else if(n>20 || n<0){ //cálculo entrada correcta
@@ -64,12 +60,12 @@ void funcion3(){
 		for (i; i<=n; i++){
   			fact*=i;
 		} 
-		printf("El fatorial de %d es %lu.\n", a, fact);
+		printf("El factorial de %d es %lu.\n", a, fact);
 	}
  
 	else if (n==0){ //factorial de 0
 		fact = 1;
-		printf("El fatorial de %d es %lu.\n", a, fact);
+		printf("El factorial de %d es %lu.\n", a, fact);
 	}
 	
 	
