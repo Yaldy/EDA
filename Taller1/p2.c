@@ -1,6 +1,8 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 
+// Función quqe codifica las reglas
 int reglaXX(int ptrio, int* pbin){
 	//int triof[3] = {*(ptrio),*(ptrio+1),*(ptrio+2)};
 	int d = 0;
@@ -40,7 +42,8 @@ int reglaXX(int ptrio, int* pbin){
 	
 	return d;
 }
-   
+
+// Función para pasar de decimal a binario
 void dec2bin(int rule, int* bin){
   int i = 7;
   // loop para calcular binario
@@ -67,21 +70,29 @@ void main(int argc, char *argv[]){
 	int fila[nhoriz]; //definicion del arreglo horizontal
   int fila_sgt[nhoriz];
  
-  // Loop para inicializar el arreglo en 0
+  // Loop para inicializar los arreglos en 0
   int i = 0;
   for(i=0; i<nhoriz; i++){
     fila[i]=0;
     fila_sgt[i]=0;
   }
-	fila[medio] = 1;
+	fila[medio] = 1; //semilla de primera fila
+ 
+  printf("Construyendo automata regla %d, con %d lineas:\n", nregla, nvert);
+ 
 	
 	//loop para imprimir la primera columna (sin primer y ultimo bloque)
 	for (i=1; i<(nhoriz-1); i++){
-		printf("%d",fila[i]);
+		if(fila[i]){
+  		  printf("x");
+      }
+      else{
+        printf(" ");
+      }
 	}
   printf("\n");
+    
   
-  //
   int j = 0;
 	for(j;j<nvert-1;j++){
     // loop que recorre el arreglo horizontal
@@ -102,9 +113,21 @@ void main(int argc, char *argv[]){
     }
   	
   	//imprime fila
-  	for (i=1; i<(nhoriz-1); i++){
+  	/*for (i=1; i<(nhoriz-1); i++){
+      if(fila[i]){
   		printf("%d",fila[i]);
-  	}
+      }
+      else{
+      }
+  	}*/
+    for (i=1; i<(nhoriz-1); i++){
+      if(fila[i]){
+  		  printf("x");
+      }
+      else{
+        printf(" ");
+      }
+    }
    printf("\n");
   }
 }
