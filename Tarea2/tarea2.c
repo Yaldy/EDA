@@ -77,29 +77,45 @@ Quadtree *addNode(int colorin,){
 
 /*-------------------------------------FUNCIONES----------------------------------------*/
 
-void dividirCuadrantes(int width_aux, int height_aux, uint8_t** cuadrantes[4], uint8_t left_top){ //left_top-> puntero del primer pixel del cuadrante
+void dividirCuadrantes(int* width_aux, int* height_aux, uint8_t* cuadrantes[4], uint8_t* left_top){ //left_top-> puntero del primer pixel del cuadrante
 	int i = 0;
 	//int width_aux=width, height_aux=height, bpp_aux=bpp;
 	int width_mitad, height_mitad;
 	
-	if(width_aux%2==0){ //par
-		width_mitad=width_aux/2;
+	if(*(width_aux)%2==0){ //par
+		width_mitad=*(width_aux)/2;
 	}
 	else{ //impar
-		width_mitad=(width_aux+1)/2;
+		width_mitad=(*(width_aux)-1)/2;
 	}
 	
-	if(height_aux%2==0){ //par
-		height_mitad=height_aux/2
+	if(*(height_aux)%2==0){ //par
+		height_mitad=*(height_aux)/2;
 	}
 	else{ //impar
-		height_mitad=(height_aux+1)/2
+		height_mitad=(*(height_aux)-1)/2;
 	}
+	*(width_aux)=width_mitad;
+	*(height_aux)=height_mitad;
 	
-	*(cuadrantes[0])=left_top;
-	*(cuadrantes[1])=left_top+width_mitad-1;
-	*(cuadrantes[2])=left_top+width_mitad*height_mitad-height_mitad-1;
-	*(cuadrantes[3])=left_top+width_mitad*height_mitad-1;
+	/*debug
+	printf("w=%d\n",*(width_aux));
+	printf("h=%d\n",*(height_aux));
+	
+	printf("%d\n",left_top);
+	printf("%d\n",left_top+width_mitad-1);
+	printf("%d\n",left_top+width_mitad*height_mitad-height_mitad-1);
+	printf("%d\n",left_top+width_mitad*height_mitad-1);
+	
+	printf("%d\n",*(left_top));
+	printf("%d\n",*(left_top+width_mitad-1));
+	printf("%d\n",*(left_top+width_mitad*height_mitad-height_mitad-1));
+	printf("%d\n",*(left_top+width_mitad*height_mitad-1));*/
+	
+	(cuadrantes[0])=left_top;
+	(cuadrantes[1])=left_top+width_mitad-1;
+	(cuadrantes[2])=left_top+width_mitad*height_mitad-height_mitad-1;
+	(cuadrantes[3])=left_top+width_mitad*height_mitad-1;
 }
 
 int recorrerCuadrante(int width_aux, int height_aux, uint8_t* left_top){
