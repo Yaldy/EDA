@@ -39,10 +39,11 @@ int main(int argc, char **argv){
 	uint8_t* img = stbi_load(imgname, &width, &height, &bpp, 0);
 	printf("Imagen %s cargada! width %d, height %d, bpp %d\n", imgname, width, height, bpp);
 	
-	printf("El valor es %d.\n",*(img+width*height-width));
+	//printf("El valor es %d.\n",*(img+width*height-width));
 
 	// Escriba aca su codigo. Cree y utilice las funciones que estime pertinente.
-	
+	int width_aux=width, height_aux=height, bpp_aux=bpp;
+	uint8_t** cuadrantes[4] //por cada nodo, deberia ir dentro de un for o algo
 	
 	
 	
@@ -76,9 +77,9 @@ Quadtree *addNode(int colorin,){
 
 /*-------------------------------------FUNCIONES----------------------------------------*/
 
-void dividirCuadrantes(int width, int height, int bpp, uint8_t** nodos[4], uint8_t left_top){
+void dividirCuadrantes(int width_aux, int height_aux, uint8_t** cuadrantes[4], uint8_t left_top){ //left_top-> puntero del primer pixel del cuadrante
 	int i = 0;
-	int width_aux=width, height_aux=height, bpp_aux=bpp;
+	//int width_aux=width, height_aux=height, bpp_aux=bpp;
 	int width_mitad, height_mitad;
 	
 	if(width_aux%2==0){ //par
@@ -95,9 +96,32 @@ void dividirCuadrantes(int width, int height, int bpp, uint8_t** nodos[4], uint8
 		height_mitad=(height_aux+1)/2
 	}
 	
-	*(nodos[0])=left_top;
-	*(nodos[1])=left_top+width_mitad-1;
-	*(nodos[2])=left_top+width_mitad*height_mitad-height_mitad-1;
-	*(nodos[3])=left_top+width_mitad*height_mitad-1;
-		
+	*(cuadrantes[0])=left_top;
+	*(cuadrantes[1])=left_top+width_mitad-1;
+	*(cuadrantes[2])=left_top+width_mitad*height_mitad-height_mitad-1;
+	*(cuadrantes[3])=left_top+width_mitad*height_mitad-1;
+}
+
+int recorrerCuadrante(int width_aux, int height_aux, uint8_t* left_top){
+	int i=1;
+	int bpp_act=0;//bpp actual
+	int bpp_first=*left_top; //primer pixel
+	//recorrer
+	for (i; i<(width_aux*height_aux); i++){
+		bpp_act=*(left_top+i);
+		if(bpp_first!=bpp_act){
+			return 2;
+		}
+	}
+	
+	//return
+	if (bpp_act==0){
+		return 0;
+	}
+	else if(bpp_act==255){
+		return 1;
+	}
+	else{
+		return 2;
+	}
 }
