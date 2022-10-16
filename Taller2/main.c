@@ -16,6 +16,7 @@ int main(int argc, char **argv){
 		char* exp = argv[j]; // expresión
 		int i = 0; //contador expresion
 		//printf("%s\n",exp);
+		int flag=0;
 		for (i;exp[i]!=0;i++){
 			//printf("el numero %c ascii es %d\n",exp[i],exp[i]);
 			char num=exp[i];
@@ -29,7 +30,6 @@ int main(int argc, char **argv){
 				int a = STACKpop();
 				int b = STACKpop();
 				int res=0;
-				int flag=0;
 				switch(exp[i]){
 					case '+': 
 						res = b + a;
@@ -70,17 +70,24 @@ int main(int argc, char **argv){
 		//printf("%s=%d\n",exp,resFinal);
 		
 		/*___________________escribir en archivo____________________*/
+		
 		FILE *f = fopen("out.txt", "a");
 		//printf("%s\n",str);
 		if (f == NULL) {
     	    fprintf(stderr, "No se pudo crear el archivo trig.txt\n");
     	    exit(1);
     	}
-		fprintf(f,"%s=%d", exp,resFinal);
+    	if (flag){
+			fprintf(f,"expresion %s invalida", exp,resFinal);
+		}
+		else{
+			fprintf(f,"%s=%d", exp,resFinal);
+		}
 		if(j!=argc-1){
 			fprintf(f,"\n");
 		}
-		fclose(f);		
+		fclose(f);
+	
 		/*----------------------------------------------------------*/
 	}
 	STACKclean();
