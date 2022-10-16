@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-//#include "stack.h"
+#include "stack.h"
 
 int main(int argc, char **argv){
 	int j = 1; //contaguro argv
