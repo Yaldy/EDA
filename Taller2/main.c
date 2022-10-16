@@ -10,14 +10,14 @@ int main(int argc, char **argv){
 		printf("ERROR: ninguna formula ingresada.\n");
 		exit(1);
 	}
-	int j = 1; //contaguro argv
+	int j = 1; //contador argv
 	STACKinit(SIZE_MAX);
-	for (j;j<=argc-1;j++){
+	for (j;j<=argc-1;j++){ //para recorrer argv
 		char* exp = argv[j]; // expresión
 		int i = 0; //contador expresion
 		//printf("%s\n",exp);
 		int flag=0;
-		for (i;exp[i]!=0;i++){
+		for (i;exp[i]!=0;i++){ //para recorrer expresión
 			//printf("el numero %c ascii es %d\n",exp[i],exp[i]);
 			char num=exp[i];
 			if((exp[i]>=48) && (exp[i]<=57)){
