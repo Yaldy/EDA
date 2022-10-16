@@ -65,7 +65,10 @@ int main(int argc, char **argv){
 				STACKpush(res,SIZE_MAX);
 			}
 		}
-		int resFinal = STACKpop();
+		int resFinal=0;
+		if(flag!=1){
+			resFinal = STACKpop();
+		}
 		//txt(exp);
 		//printf("%s=%d\n",exp,resFinal);
 		
@@ -78,7 +81,7 @@ int main(int argc, char **argv){
     	    exit(1);
     	}
     	if (flag){
-			fprintf(f,"expresion %s invalida", exp,resFinal);
+			fprintf(f,"expresion %s invalida", exp);
 		}
 		else{
 			fprintf(f,"%s=%d", exp,resFinal);
