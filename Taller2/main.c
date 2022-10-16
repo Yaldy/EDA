@@ -17,7 +17,7 @@ int main(int argc, char **argv){
 			char num=exp[i];
 			if((exp[i]>=48) && (exp[i]<=57)){
 				int n = atoi(&num);
-				printf("dato:%d\n",n);
+				//printf("dato:%d\n",n);
 				STACKpush(n,SIZE_MAX);
 			}
 			else{
@@ -61,8 +61,24 @@ int main(int argc, char **argv){
 				STACKpush(res,SIZE_MAX);
 			}
 		}
-		//int resFinal = STACKpop();
-		printf("%s=%d\n",exp,STACKpop());
+		int resFinal = STACKpop();
+		//txt(exp);
+		//printf("%s=%d\n",exp,resFinal);
+		
+		/*___________________escribir en archivo____________________*/
+		FILE *f = fopen("out.txt", "a");
+		//printf("%s\n",str);
+		if (f == NULL) {
+    	    fprintf(stderr, "No se pudo crear el archivo trig.txt\n");
+    	    exit(1);
+    	}
+		fprintf(f,"%s=%d", exp,resFinal);
+		if(j!=argc-1){
+			fprintf(f,"\n");
+		}
+		fclose(f);
+		
+		/*----------------------------------------------------------*/
 	}
 	STACKclean();
 	return 0;

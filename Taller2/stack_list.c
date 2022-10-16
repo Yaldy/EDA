@@ -5,7 +5,7 @@ typedef struct stacknode{
 	struct stacknode *next;
 }STACK;
 
-static STACK *stack = NULL;
+static STACK *head = NULL;
 
 
 void STACKinit(int size){
