@@ -6,6 +6,10 @@
 #define SIZE_MAX 20
 
 int main(int argc, char **argv){
+	if(argc<=1){
+		printf("ERROR: ninguna formula ingresada.\n");
+		exit(1);
+	}
 	int j = 1; //contaguro argv
 	STACKinit(SIZE_MAX);
 	for (j;j<=argc-1;j++){
@@ -76,8 +80,7 @@ int main(int argc, char **argv){
 		if(j!=argc-1){
 			fprintf(f,"\n");
 		}
-		fclose(f);
-		
+		fclose(f);		
 		/*----------------------------------------------------------*/
 	}
 	STACKclean();

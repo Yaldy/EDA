@@ -30,7 +30,7 @@ void STACKpush(int val,int max){
 		indice++;
 	}
 	else{
-		printf("ERROR: no queda espacio en el stack. Dato no se guardo en el stack.\n");
+		printf("ERROR: no queda espacio en el stack. Dato no se guardo.\n");
 		//STACKclean();
 		//exit(1);
 	}
@@ -42,7 +42,8 @@ int STACKpop(){
 		return stack[indice];
 	}
 	else{
-		printf("ERROR: no hay más contenido en el stack");
+		printf("ERROR: no hay más contenido en el stack\n");
+		return 0;
 		//STACKclean();
 		//exit(1);
 	}
