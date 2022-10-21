@@ -20,17 +20,25 @@ bpp # 8-bit components per pixel
 */
 
 typedef struct qtree{
-	int color; // 0: negro, 1: blanco, 2:gris
-	struct qtree *nodos[4];
+int color; // 0: negro, 1: blanco, 2:gris
+struct qtree *nodos[4];
 }Quadtree;
 
 /*Prototipos de funciones*/
-void dividirCuadrantes(int* width_aux, int* height_aux, uint8_t* cuadrantes[4], uint8_t* left_top);
-int recorrerCuadrante(int width_aux, int height_aux, uint8_t* left_top);
-void llenarQuadtree(int width_aux, int height_aux,uint8_t* p, Quadtree* nodo,int nact, int niveles);
+int dividirCuadrantesw(int w_or,int width_aux, int height_aux, uint8_t* cuadrantes[4], uint8_t* left_top);
+int dividirCuadrantesh(int width_aux, int height_aux, uint8_t* cuadrantes[4], uint8_t* left_top);
+int recorrerCuadrante(int w_or,int width_aux, int height_aux, uint8_t* left_top);
+void llenarQuadtree(int w_or,int width_aux, int height_aux,uint8_t* p, Quadtree* nodo,int nact, int niveles);
 Quadtree* addNode(int dato);
+int readNode(Quadtree* p);
+void llenarImg(int w_or,int width_aux, int height_aux,uint8_t* p, Quadtree* nodo,int nact);
+void rallarCuadrante(int w_or,int width_aux, int height_aux, uint8_t* left_top,int valor);
+Quadtree* borrarArbol(Quadtree* t);
+
+/*variables globales*/
 
 
+/*MAIN*/
 int main(int argc, char **argv){
 	int width, height, bpp;
 	char *imgname = argv[1];
@@ -43,13 +51,12 @@ int main(int argc, char **argv){
 	uint8_t* img = stbi_load(imgname, &width, &height, &bpp, 0);
 	printf("Imagen %s cargada! width %d, height %d, bpp %d\n", imgname, width, height, bpp);
 	
-	/
 	printf("El valor del 1er pixel es %d.\n",*(img));
 
 	// Escriba aca su codigo. Cree y utilice las funciones que estime pertinente.
 	int width_aux=width, height_aux=height, bpp_aux=bpp; 
 	
-	
+	//printf("puntero original: %p\n",img);
 	
 	/*dubug
 	dividirCuadrantes(&width_aux, &height_aux, cuadrantes, img);
@@ -58,22 +65,25 @@ int main(int argc, char **argv){
 	printf("III:%d\n",recorrerCuadrante(width_aux, height_aux, cuadrantes[2]));
 	printf("IV:%d\n",recorrerCuadrante(width_aux, height_aux, cuadrantes[3]));
 	*/
-	Quadtree* raiz = addNode(recorrerCuadrante(width_aux, height_aux, img));
+	Quadtree* raiz = addNode(recorrerCuadrante(width,width_aux, height_aux, img));
 	
-	llenarQuadtree(width_aux, height_aux,img, raiz,0, niveles);
+	llenarQuadtree(width,width_aux, height_aux,img, raiz,0, niveles);
 	
-	printf("%d,%d\n",width, height);	
+	//printf("aux:%d,%d\n",width_aux, height_aux);
+	
+	llenarImg(width,width_aux, height_aux, img, raiz,0);
 	
 	// Para guardar la imagen resultante, almacenada en img, en out.jpg
 	stbi_write_jpg("out.jpg", width, height, CHANNEL_NUM, img, 100);
 	// Liberando espacio de memoria de la imagen creada
 	stbi_image_free(img);
 	
+	borrarArbol(raiz);
 	
 }
 
 /*-----------------------------------API quad-tree--------------------------------------*/
-void *addNode(int dato){
+Quadtree* addNode(int dato){
 	Quadtree* node=malloc(sizeof(Quadtree));
 	if (node==NULL){
 		exit(1);
@@ -88,65 +98,46 @@ void *addNode(int dato){
 	return node;
 }
 
-/*-------------------------------------FUNCIONES----------------------------------------*/
-void llenarQuadtree(int width_aux, int height_aux,uint8_t* p, Quadtree* nodo,int nact,int niveles){
-	int f=recorrerCuadrante(width_aux, height_aux, p);
-	int w=width_aux,h=height_aux;
-	//uint8_t** cuadrantes[4];
-	//dividirCuadrantes(width_aux, height_aux, cuadrantes, p);
-	printf("nact=%d, niveles=%d\n",nact, niveles);
-	if(f==2 && nact<=niveles){
-		nact++;
-		uint8_t* cuadrantes[4];
-		dividirCuadrantes(&w, &h, cuadrantes, p);
-		
-		(nodo->nodos[0]) = addNode(recorrerCuadrante(w, h, cuadrantes[0]));
-		printf("el nodo 0 es %d\n",recorrerCuadrante(w, h, cuadrantes[0]));
-		printf("w=%d\n",w);
-		printf("h=%d\n",h);
-		llenarQuadtree(w, h,cuadrantes[0],nodo->nodos[0],nact, niveles);
-		
-		
-		(nodo->nodos[1]) = addNode(recorrerCuadrante(w, h, cuadrantes[1]));
-		printf("el nodo 1 es %d\n",recorrerCuadrante(w, h, cuadrantes[1]));
-		llenarQuadtree(w,h,cuadrantes[1],nodo->nodos[1],nact, niveles);
-		
-		(nodo->nodos[2]) = addNode(recorrerCuadrante(w, h, cuadrantes[2]));
-		printf("el nodo 2 es %d\n",recorrerCuadrante(w, h, cuadrantes[2]));
-		llenarQuadtree(w, h,cuadrantes[2],nodo->nodos[2],nact, niveles);
-		
-		(nodo->nodos[3]) = addNode(recorrerCuadrante(w, h, cuadrantes[3]));
-		printf("el nodo 3 es %d\n",recorrerCuadrante(w, h, cuadrantes[3]));
-		llenarQuadtree(w, h,cuadrantes[3],nodo->nodos[3],nact, niveles);
-	}
-	
+int readNode(Quadtree* p){
+	return(p->color);
 }
 
+Quadtree* borrarArbol(Quadtree* t){
+	if(t!=NULL){
+		t->nodos[0]=borrarArbol(t->nodos[0]);
+		t->nodos[1]=borrarArbol(t->nodos[1]);
+		t->nodos[2]=borrarArbol(t->nodos[2]);
+		t->nodos[3]=borrarArbol(t->nodos[3]);
+		free(t);
+	}
+}
 
-void dividirCuadrantes(int* width_aux, int* height_aux, uint8_t* cuadrantes[4], uint8_t* left_top){ //left_top-> puntero del primer pixel del cuadrante
+/*-------------------------------------FUNCIONES----------------------------------------*/
+
+int dividirCuadrantesw(int w_or,int width_aux, int height_aux, uint8_t* cuadrantes[4], uint8_t* left_top){ //left_top-> puntero del primer pixel del cuadrante
 	int i = 0;
+	//int w;
 	//int width_aux=width, height_aux=height, bpp_aux=bpp;
 	int width_mitad, height_mitad;
 	
-	if(*(width_aux)%2==0){ //par
-		width_mitad=*(width_aux)/2;
+	if((width_aux)%2==0){ //par
+		width_mitad=(width_aux)/2;
 	}
 	else{ //impar
-		width_mitad=(*(width_aux)-1)/2;
+		width_mitad=((width_aux)-1)/2;
 	}
 	
-	if(*(height_aux)%2==0){ //par
-		height_mitad=*(height_aux)/2;
+	if((height_aux)%2==0){ //par
+		height_mitad=(height_aux)/2;
 	}
 	else{ //impar
-		height_mitad=(*(height_aux)-1)/2;
+		height_mitad=((height_aux)-1)/2;
 	}
-	*(width_aux)=width_mitad;
-	*(height_aux)=height_mitad;
-	/*printf("w=%d\n",*(width_aux));
-	printf("h=%d\n",*(height_aux));
+	//w=width_mitad;
+	//printf("w=%d\n",*(width_aux));
+	//printf("w=%d\n",width_mitad);
 	
-	printf("%d\n",left_top);
+	/*printf("%d\n",left_top);
 	printf("%d\n",left_top+width_mitad-1);
 	printf("%d\n",left_top+width_mitad*height_mitad-height_mitad-1);
 	printf("%d\n",left_top+width_mitad*height_mitad-1);
@@ -158,20 +149,49 @@ void dividirCuadrantes(int* width_aux, int* height_aux, uint8_t* cuadrantes[4], 
 	
 	(cuadrantes[0])=left_top;
 	(cuadrantes[1])=left_top+width_mitad-1;
-	(cuadrantes[2])=left_top+width_mitad*height_mitad-height_mitad-1;
-	(cuadrantes[3])=left_top+width_mitad*height_mitad-1;
+	(cuadrantes[2])=left_top+w_or*height_mitad;
+	(cuadrantes[3])=left_top+w_or*height_mitad+width_mitad;
+	//printf("w: la mitad de %d es %d.\n ",width_aux,width_mitad);
+	return width_mitad;
 }
 
+int dividirCuadrantesh(int width_aux, int height_aux, uint8_t* cuadrantes[4], uint8_t* left_top){ //left_top-> puntero del primer pixel del cuadrante
+	int i = 0;
+	//int width_aux=width, height_aux=height, bpp_aux=bpp;
+	int width_mitad, height_mitad;
+	
+	if((width_aux)%2==0){ //par
+		width_mitad=(width_aux)/2;
+	}
+	else{ //impar
+		width_mitad=((width_aux)-1)/2;
+	}
+	
+	if((height_aux)%2==0){ //par
+		height_mitad=(height_aux)/2;
+	}
+	else{ //impar
+		height_mitad=((height_aux)-1)/2;
+	}
+	//printf("h: la mitad de %d es %d.\n ",height_aux,height_mitad);
+	return height_mitad;
+}
 
-int recorrerCuadrante(int width_aux, int height_aux, uint8_t* left_top){
+int recorrerCuadrante(int w_or,int width_aux, int height_aux, uint8_t* left_top){
 	int i=1;
+	int c = 1;
 	int bpp_act=0;//bpp actual
 	int bpp_first=*left_top; //primer pixel
 	//recorrer
-	for (i; i<(width_aux*height_aux); i++){
+	for (i,c; c<height_aux; i++){ 
 		bpp_act=*(left_top+i);
 		if(bpp_first!=bpp_act){
 			return 2;
+		}
+		if(i==width_aux){
+			i=0;
+			left_top+=w_or;
+			c++;
 		}
 	}
 	
@@ -187,4 +207,103 @@ int recorrerCuadrante(int width_aux, int height_aux, uint8_t* left_top){
 	}
 }
 
-int valorNodo(){}
+void llenarQuadtree(int w_or,int width_aux, int height_aux,uint8_t* p, Quadtree* nodo,int nact,int niveles){
+	int f=recorrerCuadrante(w_or,width_aux, height_aux, p);
+	int w=width_aux,h=height_aux;
+	
+	//uint8_t** cuadrantes[4];
+	//dividirCuadrantes(width_aux, height_aux, cuadrantes, p);
+	//printf("nact=%d, niveles=%d\n",nact, niveles);
+	if(f==2 && nact<niveles){
+		nact++;
+		uint8_t* cuadrantes[4];
+		w=dividirCuadrantesw(w_or,w, h, cuadrantes, p);
+		h=dividirCuadrantesh(w, h, cuadrantes, p);
+	//	printf("w=%d\n",w);
+		//printf("h=%d\n",h);
+		
+		(nodo->nodos[0]) = addNode(recorrerCuadrante(w_or,w, h, cuadrantes[0]));
+	//	printf("el nodo 0 es %d\n",recorrerCuadrante(w, h, cuadrantes[0]));
+		
+		llenarQuadtree(w_or,w, h,cuadrantes[0],nodo->nodos[0],nact, niveles);
+		
+		
+		(nodo->nodos[1]) = addNode(recorrerCuadrante(w_or,w, h, cuadrantes[1]));
+		//printf("el nodo 1 es %d\n",recorrerCuadrante(w, h, cuadrantes[1]));
+		llenarQuadtree(w_or,w,h,cuadrantes[1],nodo->nodos[1],nact, niveles);
+		
+		(nodo->nodos[2]) = addNode(recorrerCuadrante(w_or,w, h, cuadrantes[2]));
+		//printf("el nodo 2 es %d\n",recorrerCuadrante(w, h, cuadrantes[2]));
+		llenarQuadtree(w_or,w, h,cuadrantes[2],nodo->nodos[2],nact, niveles);
+		
+		(nodo->nodos[3]) = addNode(recorrerCuadrante(w_or,w, h, cuadrantes[3]));
+		//printf("el nodo 3 es %d\n",recorrerCuadrante(w, h, cuadrantes[3]));
+		llenarQuadtree(w_or,w, h,cuadrantes[3],nodo->nodos[3],nact, niveles);
+	}
+	
+}
+/*de acá para arriba funaciona todo u.u*/
+/*impleentación lectura de quadtree y escritura de imagen*/
+/*void rallarCuadrante(int width_aux, int height_aux, uint8_t* left_top,int valor){
+	int i=0;
+	//recorrer
+	for (i; i<=(width_aux*height_aux*3); i++){ 
+		switch(valor){
+			case 0: *(left_top+i)=0;
+			case 1: *(left_top+i)=255;
+			case 2: *(left_top+i)=128;
+		
+		}
+	}
+}*/
+void rallarCuadrante(int w_or, int width_aux, int height_aux, uint8_t* left_top,int valor){
+	int i=0;
+	int c = 1;
+	int a = 0;
+	//recorrer
+	for (i,c; c<height_aux; i++){ 
+		//printf("w=%d  i=%d,\n",width_aux,i);
+		switch(valor){
+			case 0: *(left_top+i)=0; 
+					break;
+			case 1: *(left_top+i)=255;
+					break;
+			case 2: *(left_top+i)=128;
+					break;
+		}
+		if(i==width_aux-1){
+			i=0;
+			left_top+=w_or;
+			c++;
+		}
+		//printf("%d ralla\n",a);
+		a++;
+	}
+}
+
+void llenarImg(int w_or,int width_aux, int height_aux,uint8_t* p, Quadtree* nodo,int nact){
+	int w=width_aux,h=height_aux;
+	if(nodo->nodos[0]!=NULL){
+		//nact;
+		
+		uint8_t* cuadrantes[4];
+		w=dividirCuadrantesw(w_or,w, h, cuadrantes, p);
+		h=dividirCuadrantesh(w, h, cuadrantes, p);
+		
+		llenarImg(w_or,w, h,cuadrantes[0],nodo->nodos[0],nact);
+		llenarImg(w_or,w, h,cuadrantes[1],nodo->nodos[1],nact);
+		llenarImg(w_or,w, h,cuadrantes[2],nodo->nodos[2],nact);
+		llenarImg(w_or,w, h,cuadrantes[3],nodo->nodos[3],nact);
+	}
+	else{
+		//printf("w=%d\n",w);
+		//printf("h=%d\n",h);
+		int valor=0;
+		valor = readNode(nodo);
+		//printf("queadtree tiene valor %d.\n",valor);
+		//printf("puntero a rallar: %p\n",p);
+		rallarCuadrante(w_or,w,h, p,valor);
+		
+	}
+	
+}
