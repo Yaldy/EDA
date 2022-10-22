@@ -73,6 +73,41 @@ int main(int argc, char **argv){
 	
 	llenarImg(width,width_aux, height_aux, img, raiz,0);
 	
+	
+	
+	/*---------------------------------
+	int i,j;
+	uint8_t *pix;
+	uint8_t value;
+	int flag = 0;
+
+	for(j = 0; j < height; j++)
+	{
+		pix = img + j*width;
+		for(i = 0; i < width; i++)
+		{
+
+			if(*pix<255 && *pix >128) printf(" ");
+			//else printf("*");
+			
+			else if(*pix<128 && *pix >0){
+				printf("@");
+			}else{
+				printf(".");
+			}
+			pix++;
+		}
+		printf("\n");
+	}
+	/*----------------------------------*/
+	
+	
+	
+	
+	
+	
+	
+	
 	// Para guardar la imagen resultante, almacenada en img, en out.jpg
 	stbi_write_jpg("out.jpg", width, height, CHANNEL_NUM, img, 100);
 	// Liberando espacio de memoria de la imagen creada
@@ -148,9 +183,9 @@ int dividirCuadrantesw(int w_or,int width_aux, int height_aux, uint8_t* cuadrant
 	printf("%d\n",*(left_top+width_mitad*height_mitad-1));*/
 	
 	(cuadrantes[0])=left_top;
-	(cuadrantes[1])=left_top+width_mitad-1;
-	(cuadrantes[2])=left_top+w_or*height_mitad;
-	(cuadrantes[3])=left_top+w_or*height_mitad+width_mitad;
+	(cuadrantes[1])=left_top+width_mitad;
+	(cuadrantes[2])=left_top+w_or*(height_mitad);
+	(cuadrantes[3])=left_top+w_or*(height_mitad)+width_mitad;
 	//printf("w: la mitad de %d es %d.\n ",width_aux,width_mitad);
 	return width_mitad;
 }
@@ -179,47 +214,52 @@ int dividirCuadrantesh(int width_aux, int height_aux, uint8_t* cuadrantes[4], ui
 
 int recorrerCuadrante(int w_or,int width_aux, int height_aux, uint8_t* left_top){
 	int i=1;
-	int c = 1;
+	int c = 0;
 	int bpp_act=0;//bpp actual
 	int bpp_first=*left_top; //primer pixel
 	//recorrer
-	for (i,c; c<height_aux; i++){ 
-		bpp_act=*(left_top+i);
-		if(bpp_first!=bpp_act){
-			return 2;
-		}
-		if(i==width_aux){
-			i=0;
-			left_top+=w_or;
-			c++;
+	if(width_aux>1){
+		for (i,c; c<(height_aux); i++){ 
+			bpp_act=*(left_top+i);
+			if(bpp_first!=bpp_act){
+				return 2;
+			}
+			if(i==width_aux){
+				i=-1;
+				left_top+=w_or;
+				c++;
+			}
 		}
 	}
-	
 	//return
-	if (bpp_act==0){
+	if (bpp_first>=0 && bpp_first<=128){
 		return 0;
 	}
-	else if(bpp_act==255){
+	else if(bpp_first<=255 && bpp_first>128){
 		return 1;
 	}
-	else{
+	/*else{
 		return 2;
-	}
+	}*/
+	printf("errorsito");
+	exit(1);
 }
 
 void llenarQuadtree(int w_or,int width_aux, int height_aux,uint8_t* p, Quadtree* nodo,int nact,int niveles){
 	int f=recorrerCuadrante(w_or,width_aux, height_aux, p);
 	int w=width_aux,h=height_aux;
-	
+	//printf("%d",f);
 	//uint8_t** cuadrantes[4];
 	//dividirCuadrantes(width_aux, height_aux, cuadrantes, p);
 	//printf("nact=%d, niveles=%d\n",nact, niveles);
-	if(f==2 && nact<niveles){
+	if(w==1)printf("%d",f);
+	if(f==2 && nact<niveles && w>1){
+		//printf("entra");
 		nact++;
 		uint8_t* cuadrantes[4];
 		w=dividirCuadrantesw(w_or,w, h, cuadrantes, p);
 		h=dividirCuadrantesh(w, h, cuadrantes, p);
-	//	printf("w=%d\n",w);
+		//printf("w=%d\n",w);
 		//printf("h=%d\n",h);
 		
 		(nodo->nodos[0]) = addNode(recorrerCuadrante(w_or,w, h, cuadrantes[0]));
@@ -256,7 +296,7 @@ void llenarQuadtree(int w_or,int width_aux, int height_aux,uint8_t* p, Quadtree*
 		}
 	}
 }*/
-void rallarCuadrante(int w_or, int width_aux, int height_aux, uint8_t* left_top,int valor){
+/*void rallarCuadrante(int w_or, int width_aux, int height_aux, uint8_t* left_top,int valor){
 	int i=0;
 	int c = 1;
 	int a = 0;
@@ -278,6 +318,35 @@ void rallarCuadrante(int w_or, int width_aux, int height_aux, uint8_t* left_top,
 		}
 		//printf("%d ralla\n",a);
 		a++;
+	}
+}*/
+
+void rallarCuadrante(int w_or,int width_aux, int height_aux, uint8_t* left_top,int valor){
+	int i = 0;
+	int c =0;
+	//recorrer
+	//printf("w=%d\n",width_aux);
+	for (i,c; c<height_aux; i++){ 
+		//printf("w=%d  i=%d,\n",width_aux,i);
+		switch(valor){
+			case 0: *(left_top+i)=0; 
+					//printf("negro");
+					break;
+			case 1: *(left_top+i)=255;
+					//printf("blanco");
+					break;
+			case 2: *(left_top+i)=128;
+					//printf("gris");
+					break;
+		}
+		//printf("i=%d\n",i);
+		if(i==width_aux){
+			i=-1;
+			left_top+=w_or;
+			c++;
+		//	printf("c+1=%d",c);
+		}
+		//printf("%d ralla\n",a);
 	}
 }
 
