@@ -217,8 +217,7 @@ int recorrerCuadrante(int w_or,int width_aux, int height_aux, uint8_t* left_top)
 	int c = 0;
 	int bpp_act=0;//bpp actual
 	int bpp_first=*left_top; //primer pixel
-	//recorrer
-	if(width_aux>1){
+	if(width_aux>1){ 
 		for (i,c; c<(height_aux); i++){ 
 			bpp_act=*(left_top+i);
 			if(bpp_first!=bpp_act){
@@ -232,13 +231,19 @@ int recorrerCuadrante(int w_or,int width_aux, int height_aux, uint8_t* left_top)
 		}
 	}
 	//return
-	if (bpp_first>=0 && bpp_first<=128){
+	if (bpp_first>=0 && bpp_first<=150){
 		return 0;
 	}
-	else if(bpp_first<=255 && bpp_first>128){
+	else if(bpp_first<=255 && bpp_first>150){
 		return 1;
 	}
-	/*else{
+	/*if(bpp_first==0){
+		return 0;
+	}
+	else if(bpp_first==255){
+		return 1;
+	}
+	else{
 		return 2;
 	}*/
 	printf("errorsito");
@@ -252,7 +257,7 @@ void llenarQuadtree(int w_or,int width_aux, int height_aux,uint8_t* p, Quadtree*
 	//uint8_t** cuadrantes[4];
 	//dividirCuadrantes(width_aux, height_aux, cuadrantes, p);
 	//printf("nact=%d, niveles=%d\n",nact, niveles);
-	if(w==1)printf("%d",f);
+	//if(w==1)printf("%d",f);
 	if(f==2 && nact<niveles && w>1){
 		//printf("entra");
 		nact++;
