@@ -24,7 +24,7 @@ struct qtree *nodos[4];
 
 /*Prototipos de funciones*/
 int dividirCuadrantesw(int w_or,int width_aux, int height_aux, uint8_t* cuadrantes[4], uint8_t* left_top);
-int dividirCuadrantesh(int width_aux, int height_aux, uint8_t* cuadrantes[4], uint8_t* left_top);
+int dividirCuadrantesh(int height_aux);
 int recorrerCuadrante(int w_or,int width_aux, int height_aux, uint8_t* left_top);
 void llenarQuadtree(int w_or,int width_aux, int height_aux,uint8_t* p, Quadtree* nodo,int nact, int niveles);
 Quadtree* addNode(int dato);
@@ -124,17 +124,9 @@ int dividirCuadrantesw(int w_or,int width_aux, int height_aux, uint8_t* cuadrant
 }
 
 // Para dividir un cuadrante en 4, devuelve el height de los cuadrantes resultantes
-int dividirCuadrantesh(int width_aux, int height_aux, uint8_t* cuadrantes[4], uint8_t* left_top){ 
+int dividirCuadrantesh(int height_aux){ 
 	int i = 0;
-	
-	int width_mitad, height_mitad;
-	
-	if((width_aux)%2==0){ //par
-		width_mitad=(width_aux)/2;
-	}
-	else{ //impar
-		width_mitad=((width_aux)-1)/2;
-	}
+	int height_mitad;
 	
 	if((height_aux)%2==0){ //par
 		height_mitad=(height_aux)/2;
@@ -142,7 +134,7 @@ int dividirCuadrantesh(int width_aux, int height_aux, uint8_t* cuadrantes[4], ui
 	else{ //impar
 		height_mitad=((height_aux)-1)/2;
 	}
-	//printf("h: la mitad de %d es %d.\n ",height_aux,height_mitad);
+	
 	return height_mitad;
 }
 
@@ -187,7 +179,7 @@ void llenarQuadtree(int w_or,int width_aux, int height_aux,uint8_t* p, Quadtree*
 		nact++;
 		uint8_t* cuadrantes[4];
 		w=dividirCuadrantesw(w_or,w, h, cuadrantes, p);
-		h=dividirCuadrantesh(w, h, cuadrantes, p);
+		h=dividirCuadrantesh(h);
 		
 		// Se crean lo 4 hijos de cada nodo
 		(nodo->nodos[0]) = addNode(recorrerCuadrante(w_or,w, h, cuadrantes[0]));		
@@ -237,7 +229,7 @@ void llenarImg(int w_or,int width_aux, int height_aux,uint8_t* p, Quadtree* nodo
 		
 		uint8_t* cuadrantes[4];
 		w=dividirCuadrantesw(w_or,w, h, cuadrantes, p);
-		h=dividirCuadrantesh(w, h, cuadrantes, p);
+		h=dividirCuadrantesh(h);
 		
 		llenarImg(w_or,w, h,cuadrantes[0],nodo->nodos[0],nact);
 		llenarImg(w_or,w, h,cuadrantes[1],nodo->nodos[1],nact);
