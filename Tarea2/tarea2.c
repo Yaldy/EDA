@@ -116,9 +116,9 @@ int dividirCuadrantesw(int w_or,int width_aux, int height_aux, uint8_t* cuadrant
 	
 	// guardar puntero al primer pixel de los 4 cuadrantes resultantes
 	(cuadrantes[0])=left_top;
-	(cuadrantes[1])=left_top+width_mitad;
-	(cuadrantes[2])=left_top+w_or*(height_mitad);
-	(cuadrantes[3])=left_top+w_or*(height_mitad)+width_mitad;
+	(cuadrantes[1])=left_top+width_mitad*CHANNEL_NUM;
+	(cuadrantes[2])=left_top+w_or*(height_mitad)*CHANNEL_NUM;
+	(cuadrantes[3])=left_top+w_or*(height_mitad)*CHANNEL_NUM+width_mitad*CHANNEL_NUM;
 	
 	return width_mitad;
 }
@@ -152,9 +152,9 @@ int recorrerCuadrante(int w_or,int width_aux, int height_aux, uint8_t* left_top)
 			if(bpp_first!=bpp_act){
 				return 2;
 			}
-			if(i==width_aux){
+			if(i==width_aux*CHANNEL_NUM){
 				i=-1;
-				left_top+=w_or;
+				left_top+=w_or*CHANNEL_NUM;
 				c++;
 			}
 		}
@@ -214,9 +214,9 @@ void rallarCuadrante(int w_or,int width_aux, int height_aux, uint8_t* left_top,i
 					//printf("gris");
 					break;
 		}
-		if(i==width_aux){
+		if(i==width_aux*CHANNEL_NUM-1){
 			i=-1;
-			left_top+=w_or;
+			left_top+=w_or*CHANNEL_NUM;
 			c++;
 		}
 	}
