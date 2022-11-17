@@ -41,8 +41,8 @@ int hash_insert(int T[], int k, int m, int tec){ //tabla hash, key, tamaño tabl
 			i++;
 		}
 	}
-	printf("hash table overflow");
-	exit(1); //retorna -1 en caso de error
+	printf("hash table overflow, table %d", tec);
+	return -1; //retorna -1 en caso de error
 }
 
 void hash_insert_3T(int T1[], int T2[], int T3[], int k, int m){
