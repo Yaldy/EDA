@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -17,7 +18,7 @@ int h_doub_hash(int k, int i, int m){
 	return (k%m + i*(1+k%(m-1)))%m;
 }
 
-void hash_insert(int T[], int k, int m, int tec){ //tabla hash, key, tamaño tabla, tecnica
+int hash_insert(int T[], int k, int m, int tec){ //tabla hash, key, tamaño tabla, tecnica
 	int i = 0;
 	while(i != m){
 		int j = 0;
@@ -41,13 +42,13 @@ void hash_insert(int T[], int k, int m, int tec){ //tabla hash, key, tamaño tab
 		}
 	}
 	printf("hash table overflow");
-	return -1; //retorna -1 en caso de error
+	exit(1); //retorna -1 en caso de error
 }
 
 void hash_insert_3T(int T1[], int T2[], int T3[], int k, int m){
-	void hash_insert(T1[], k, m, 1); // linear probing
-	void hash_insert(T2[], k, m, 2); // quadratic probing
-	void hash_insert(T3[], k, m, 3); //	double hashing
+	hash_insert(T1, k, m, 1); // linear probing
+	hash_insert(T2, k, m, 2); // quadratic probing
+	hash_insert(T3, k, m, 3); // double hashing
 }
 
 
