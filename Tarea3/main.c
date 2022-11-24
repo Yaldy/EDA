@@ -80,3 +80,8 @@ void main(int argc, char* argv[]){
 	hay que crear siempre 2000 numeros random o basta con crear la catidad que se va a meter a la tabla?
 	la llave es el dato? no tiene sentido:( 
 */
+
+/* COMENTARIOS
+	buscar parámetros de tecnicas para argumentar ren README
+	para ver cuantos elementos meter en la tabla es interacción con el usuario
+*/

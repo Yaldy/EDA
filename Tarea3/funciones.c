@@ -4,6 +4,8 @@
 
 //hash_init
 
+//FALTA AGREGAR N DE COLISONES
+
 int h_lin_prob(int k,int i,int m){
 	return (k%m+i)%m;
 }
@@ -41,7 +43,7 @@ int hash_insert(int T[], int k, int m, int tec){ //tabla hash, key, tamaño tabl
 			i++;
 		}
 	}
-	printf("hash table overflow, table %d", tec);
+	printf("hash table overflow, table %d\n", tec);
 	return -1; //retorna -1 en caso de error
 }
 
