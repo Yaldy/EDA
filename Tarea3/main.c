@@ -6,6 +6,10 @@
 
 #define TAM_TABLA 2000
 
+extern int col1;
+extern int col2;
+extern int col3;
+
 void main(int argc, char* argv[]){
 	int m = TAM_TABLA; //tamaño de la tabla hash
 	char* nchar = argv[1];// elementos en el mapa de ocupación (char)
@@ -36,6 +40,9 @@ void main(int argc, char* argv[]){
 	for(i=0; i<n; i++){
 		hash_insert_3T(T1, T2, T3, nrandom[i], m); //particular, 3 tablas
 	}
+	
+	//colisiones por cada tecnica
+	//printf("COLISIONES: %d con 1, %d con 2 y %d con 3\n",col1,col2,col3);
 	
 	//archivos
 	char name1[14+6];

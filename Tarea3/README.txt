@@ -6,7 +6,7 @@ PARA COMPILAR:
 
 	./tarea3 n_elem
 
-donde n_elem es la cantidad de elementos a ingrasar en la tabla.
+ donde n_elem es la cantidad de elementos a ingrasar en la tabla.
 
 El tamaño de la tabla se define dentro del código, en una macro llamada TAM_TABLA.
 

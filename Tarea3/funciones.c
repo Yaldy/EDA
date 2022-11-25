@@ -4,7 +4,9 @@
 
 //hash_init
 
-//FALTA AGREGAR N DE COLISONES
+int col1;
+int col2;
+int col3;
 
 int h_lin_prob(int k,int i,int m){
 	return (k%m+i)%m;
@@ -37,6 +39,19 @@ int hash_insert(int T[], int k, int m, int tec){ //tabla hash, key, tamaño tabl
 		}
 		if (T[j]==-1){ //las casillas vacías tienen -1, ver si se puede marcar de otra forma
 			T[j]=k;
+			///////////////////////
+			switch (tec){	//llmara a la técnica deseada
+			case 1:
+				col1+=i; 
+				break;
+			case 2:
+				col2+=i; 
+				break;
+			case 3:
+				col3+=i;  
+				break;
+			}
+			////////////////////////////////
 			return j;
 		}
 		else{
